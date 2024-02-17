@@ -4,21 +4,18 @@ import base64
 from requests import post, get
 import json
 from flask import Flask, render_template, request, jsonify
-import cgi
-form = cgi.FieldStorage()
-searchterm = form.getvalue('searchbox')
-print(searchterm)
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("main.html")
 
 @app.route('/', methods=['POST'])
 def my_form_post():
     variable = request.form['variable']
-    return variable
+    ret = variable.upper()
+    return ret
 
 
 load_dotenv()
