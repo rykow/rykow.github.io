@@ -4,22 +4,13 @@ import base64
 from requests import post, get
 import json
 from flask import Flask, render_template, request, jsonify
+import csv
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/add', methods=['POST'])
-def add():
-    num1 = int(request.form['num1'])
-    num2 = int(request.form['num2'])
-    result = num1 + num2
-    return render_template('index.html', result=result)
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
 load_dotenv()
@@ -67,14 +58,55 @@ def get_album(token, album_id):
     json_result = json.loads(result.content)
     return json_result
 
+def get_genre(token, artist_id):
+    url = f"https://api.spotify.com/v1/artists/{artist_id}"
+    headers = get_auth_header(token)
+    result = get(url, headers=headers)
+    json_result = json.loads(result.content)
+    genres = ["hip hop", "rap", "pop", "rock","electro", "contemporary country", "country"]
+    if (len(json_result["genres"]) == 0):
+        return "Alternative"
+    else:
+        for genre in genres:
+            if genre in json_result["genres"]:
+                return genre
+        return f"{json_result["genres"][0]}"
+
 
 @app.route('/album', methods=["POST"])
 def POST_album():
     token = get_token()
-    result = search_for_album(token, "The New Abnormal")
+    album = request.form["course"]
+    result = search_for_album(token, album)
     album_id = result["id"]
     album_info = get_album(token, album_id)
-    print(album_info)
+    returnAlbum = {"albumname": f"{album_info["name"]}"}
+    returnAlbum["numoftracks"] = f"{album_info["total_tracks"]}"
+    returnAlbum["artist"] = f"{album_info["artists"][0]["name"]}"
+    artistid = album_info["artists"][0]["uri"][15:]
+    returnAlbum["genre"] = get_genre(token, artistid)
+    # if (len(album_info["genres"]) == 0):
+    #     returnAlbum["genre"] = "Alternative"
+    # else:
+    #     returnAlbum["genre"] = f"{album_info["genres"][0]}"
+    returnAlbum["releasedate"] = f"{album_info["release_date"][:4]}" # only getting year # also is string atm
+    returnAlbum["popularity"] = f"{album_info["popularity"]}"
+    # print(album_info)
+    return returnAlbum, 200
+
+@app.route('/getAOD', methods=["POST"])
+def POST_aod():
+    day = int(request.form["day"])
+    
+    with open('data.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        count = 0
+        for row in csv_reader:
+            if count == day:
+                return {"nameAOD": row[0]}
+            count+=1
+            
+    return "ERROR", 500
 
     
 
