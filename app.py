@@ -70,7 +70,7 @@ def get_genre(token, artist_id):
         for genre in genres:
             if genre in json_result["genres"]:
                 return genre
-        return f"{json_result["genres"][0]}"
+        return json_result["genres"][0]
 
 
 @app.route('/album', methods=["POST"])
@@ -80,17 +80,17 @@ def POST_album():
     result = search_for_album(token, album)
     album_id = result["id"]
     album_info = get_album(token, album_id)
-    returnAlbum = {"albumname": f"{album_info["name"]}"}
-    returnAlbum["numoftracks"] = f"{album_info["total_tracks"]}"
-    returnAlbum["artist"] = f"{album_info["artists"][0]["name"]}"
+    returnAlbum = {"albumname": album_info["name"]}
+    returnAlbum["numoftracks"] = album_info["total_tracks"]
+    returnAlbum["artist"] = album_info["artists"][0]["name"]
     artistid = album_info["artists"][0]["uri"][15:]
     returnAlbum["genre"] = get_genre(token, artistid)
     # if (len(album_info["genres"]) == 0):
     #     returnAlbum["genre"] = "Alternative"
     # else:
     #     returnAlbum["genre"] = f"{album_info["genres"][0]}"
-    returnAlbum["releasedate"] = f"{album_info["release_date"][:4]}" # only getting year # also is string atm
-    returnAlbum["popularity"] = f"{album_info["popularity"]}"
+    returnAlbum["releasedate"] = album_info["release_date"][:4] # only getting year # also is string atm
+    returnAlbum["popularity"] = album_info["popularity"]
     # print(album_info)
     return returnAlbum, 200
 
