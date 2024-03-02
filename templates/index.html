@@ -72,15 +72,17 @@
           compreleasedate = higherOrLowerInt(aodReleaseDate, rd);
           comppopularity = higherOrLowerInt(aodPopularity, p);
 
-          if (a == aodArtist && rd == aodReleaseDate) {
-            $(albumcount).html(`<br></br><h2>YOU WIN!!!!!</h2><img src="static/catjam.gif" width = "500px" height = "500px">`);
-          } else {
-            $(albumcount).html(`<hr><h3>Name ${an}</h3><ul><li>Number of Tracks: <p id = "${compnumoftracks}" >${not} </p></li><li>Artist: <p id = "${compartist}" >${a}</p></li><li>Genre: <p id = "${compgenre}" >${g}</p></li><li>Release Date: <p id = "${compreleasedate}" >${rd}</p></li><li>Popularity: <p id = "${comppopularity}" >${p}</p></li></ul>`);
-          }
+          // if (a == aodArtist && rd == aodReleaseDate) {
+          //   $(albumcount + 1).html(`<br></br><h2>YOU WIN!!!!!</h2><img src="static/catjam.gif" width = "500px" height = "500px">`);
+          // }
+          $(albumcount).html(`<hr><h3>Name ${an}</h3><ul><li>Number of Tracks: <p id = "${compnumoftracks}" >${not} </p></li><li>Artist: <p id = "${compartist}" >${a}</p></li><li>Genre: <p id = "${compgenre}" >${g}</p></li><li>Release Date: <p id = "${compreleasedate}" >${rd}</p></li><li>Popularity: <p id = "${comppopularity}" >${p}</p></li></ul>`);
 
 
           // $(albumcount).html(`<hr><h3>Name ${an}</h3><ul><li>Number of Tracks: ${not}</li><li>Artist: ${a}</li><li>Genre: ${g}</li><li>Release Date: ${rd}</li><li>Popularity: ${p}</li></ul>`);
           count += 1;
+          if (a == aodArtist && rd == aodReleaseDate) {
+            $("#content" + count).html(`<br></br><h2>YOU WIN!!!!!</h2><img src="static/catjam.gif" width = "500px" height = "500px">`);
+          }
         })
       // $.post("/weather", formData)
       // .done(function (data) {
