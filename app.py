@@ -70,7 +70,8 @@ def get_genre(token, artist_id):
         for genre in genres:
             if genre in json_result["genres"]:
                 return genre
-        return json_result["genres"][0]
+        # return json_result["genres"][0] # return alternative here
+        return "Alternative"
 
 
 @app.route('/album', methods=["POST"])
