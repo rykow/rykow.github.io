@@ -20,7 +20,7 @@
     var day = Math.floor(diff / oneDay);
     day += 42;
     day = day % 100; // get from date of anniversary
-    day = day - 1; // ONLY CHANGED TO DO PREVIOUS ALBUMLE
+    // day = day - 1; // ONLY CHANGED TO DO PREVIOUS ALBUMLE
     let aodAlbumName = "NULL"
     let aodNumOfTracks = "NULL"
     let aodArtist = "NULL"
@@ -82,7 +82,7 @@
           // $(albumcount).html(`<hr><h3>Name ${an}</h3><ul><li>Number of Tracks: ${not}</li><li>Artist: ${a}</li><li>Genre: ${g}</li><li>Release Date: ${rd}</li><li>Popularity: ${p}</li></ul>`);
           count += 1;
           if (a == aodArtist && rd == aodReleaseDate) {
-            $("#content" + count).html(`<br></br><h2>YOU WIN!!!!!</h2><img src="static/catjam.gif" width = "500px" height = "500px">`);
+            $("#content" + count).html(`<br></br><h2>YOU WIN!!!!!</h2><img src="static/peanutsdance.gif" width = "500px" height = "500px">`);
           }
         })
       // $.post("/weather", formData)
